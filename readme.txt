@@ -1,3 +1,42 @@
+I had several iterations, based on finding out that kind does not automtically load balance when I attempt to use the url.
+I landed on using minikube for basic testing.
+As well as condensed to app.yaml insted of all three files.
+
+# Start minikube
+minikube start
+kubectl get nodes
+
+kubectl apply -f k8s/app.yaml
+kubectl -n hello get deploy,svc,pods -o wide
+
+# Sanity check - I didnt push the image the first time
+kubectl -n hello get pods
+
+# Open new terminal
+sudo minikube tunnel
+
+# Original or new terminl
+kubectl -n hello get svc nyla-spring -w
+> Provides ip (mine is 127.0.0.1)
+
+# Run it
+for i in {1..10}; do curl -s http://127.0.0.1/hello; echo; done
+
+
+# Clean up
+kubectl delete -f k8s/app.yaml
+minikube delete
+
+---- End main steps
+
+
+
+
+docker build -t samhendricksen/nyla-spring:1.0.3 .
+docker push samhendricksen/nyla-spring:1.0.3
+
+
+
 --------- Run using prebuilt image in docker
 docker pull samhendricksen/nyla-spring:1.0.1
 docker run --rm -p 8080:8080 samhendricksen/nyla-spring:1.0.1
