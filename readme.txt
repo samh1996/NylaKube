@@ -41,6 +41,14 @@ kubectl -n hello get pods -o wide
 # Run the test
 for i in {1..6}; do curl -s http://127.0.0.1/hello; echo; done
 
+# Results
+Hello, Kubernetes 1.0.4! From pod: nyla-spring-85fc4fdc9d-vzqp6
+Hello, Kubernetes 1.0.4! From pod: nyla-spring-85fc4fdc9d-pxv48
+Hello, Kubernetes 1.0.4! From pod: nyla-spring-85fc4fdc9d-g2k7f
+Hello, Kubernetes 1.0.4! From pod: nyla-spring-85fc4fdc9d-g2k7f
+Hello, Kubernetes 1.0.4! From pod: nyla-spring-85fc4fdc9d-q4n8t
+Hello, Kubernetes 1.0.4! From pod: nyla-spring-85fc4fdc9d-vzqp6
+
 # Clean up
 kubectl delete -f k8s/app.yaml
 minikube delete
