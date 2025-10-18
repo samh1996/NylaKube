@@ -22,6 +22,24 @@ kubectl -n hello get svc nyla-spring -w
 # Run it
 for i in {1..10}; do curl -s http://127.0.0.1/hello; echo; done
 
+# Update it
+export USERNAME=samhendricksen
+export APP=nyla-spring
+export NEW_TAG=1.0.4   # <- bump this
+
+#push new build
+docker build -t $USERNAME/$APP:$NEW_TAG .
+docker push $USERNAME/$APP:$NEW_TAG
+
+# Update running build
+kubectl -n hello set image deployment/$APP app=$USERNAME/$APP:$NEW_TAG
+kubectl -n hello rollout status deployment/$APP
+
+# Should see old pods terminating and new one generating
+kubectl -n hello get pods -o wide
+
+# Run the test
+for i in {1..6}; do curl -s http://127.0.0.1/hello; echo; done
 
 # Clean up
 kubectl delete -f k8s/app.yaml

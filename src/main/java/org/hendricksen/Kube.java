@@ -10,7 +10,7 @@ public class Kube {
     @GetMapping("/hello")
     public String hello() {
         String podName = System.getenv().getOrDefault("HOSTNAME", "unknown-pod");
-        return "Hello, Kubernetes! From pod: " + podName;
+        return "Hello, Kubernetes 1.0.4! From pod: " + podName;
     }
 
     public static void main(String[] args) {
